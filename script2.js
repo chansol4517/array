@@ -1,31 +1,20 @@
-/*
-  전개 연산자(Spread Operator)
-  :얕은 복사가 일어나는 것을 방지하기 위해
-  아예 메모리힙상의 값을 물리적으로 꺼내서 펼친 뒤 새로운 배열, 객체로 다시 묶어주는 형태(완전복사: Deep Copy)
-  */
+// 참조형 자료를 전개연산자가 아닌 map으로 deep copy 해야하는 경우
+//특정 참조형 자료를 완전 복사한다는 의미는 기존 원본대비 변경점이 생겨야되는 이유
+//일반 Database 구조를 생각해봤을 때 변경사항이 한 요소뿐 아니라 모든 데이터 전체적으로 일어나는 경우가 많은
 
-const originArr = [1, 2, 3];
-// console.log(...originArr);
-// 힙메모리상에 잇는 값 자체를 꺼내서 펼친 뒤 복사한 형태
-// 그렇게 복사가 된 형태의 데이터를 다시 새롭게 배열로 그룹화
-//힙메모리상에 새로운 값이 복사되고 새로운 참조값이 생기므로 복사된 배열의 전용 참조값이 newArr에 할당됨
-const newArr = [...originArr];
-//newArr에는 물리적으로 새로운 메모리 힙상의 데이터를 참조하고 있기 때문에
-//해당 참조값이 가리키는 메모리힙상의 값을 고쳐도 원본은 훼손이 일어나지 않음(불변성 유지됨)
-newArr[0] = 0;
-console.log(newArr);
+let text = "2024-david";
+//원본 문자값에 '2024' 문자열을 찾은 뒤, '2025'문자값으로 바꿔서 반환
+let newText = text.replace("2024", "2025");
+console.log(newText);
 
-//작년 수강생 정보
-const first = {
-  name: "Michael",
-  age: 20,
-  isFemale: false,
-};
+const classInfo = ["2024-david", "2024-emily", "2024-paul", "2024-michael"];
 
-//아래와 같이 객체도 기존 배열과 같은 형태로 전개연산자를 통해 복사가 가능
-const second = { ...first };
-second.age = 21;
+//const newClassInfo = classInfo map((data)=> {
+// return data.replace("2024","2025");
+//});
 
-//원본 훼손이 일어나지 않음
-console.log(first);
-console.log(second);
+//아래와 같이 기존 배열값을 복사하는 이유는 일괄적으로 데이터를 변경해야되는 경우가 많으므로
+//복사와 동시에 불변셩을 유지하면서 값을 변경할 수 있는 map을 이용하는 것이 효율적
+const newClassInfo = classInfo.map((data) => data.replace("2024", "2025"));
+
+console.log(newClassInfo);
